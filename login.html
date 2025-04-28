@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Online Shop</title>
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #1976d2; color: #fff; text-align: center; }
+    input { display: block; margin: 10px auto; padding: 8px; width: 80%; }
+    button { padding: 10px 20px; background: #ff6f00; color: white; border: none; cursor: pointer; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Login</h1>
+
+  <input type="text" id="username" placeholder="Username" required>
+  <input type="password" id="password" placeholder="Password" required>
+
+  <button onclick="login()">Login</button>
+
+  <p id="error" class="error"></p>
+  <p>Don't have an account? <a href="register.html" style="color:#fff;">Register here</a></p>
+
+  <script>
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const error = document.getElementById('error');
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if (!user) {
+        error.textContent = "Invalid username or password.";
+        return;
+      }
+
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      alert("Login successful!");
+      window.location.href = "home.html";
+    }
+  </script>
+
+</body>
+</html>
