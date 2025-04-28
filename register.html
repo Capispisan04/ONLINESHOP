@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - Online Shop</title>
+  <style>
+    body { font-family: 'Poppins', sans-serif; background: #1976d2; color: #fff; text-align: center; }
+    input, select { display: block; margin: 10px auto; padding: 8px; width: 80%; }
+    button { padding: 10px 20px; background: #ff6f00; color: white; border: none; cursor: pointer; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+
+  <h1>Register</h1>
+
+  <input type="text" id="username" placeholder="Username" required>
+  <input type="password" id="password" placeholder="Password" required>
+  <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+  
+  <select id="role" required>
+    <option value="">Choose Role</option>
+    <option value="Buyer">Buyer</option>
+    <option value="Seller">Seller</option>
+  </select>
+
+  <button onclick="register()">Register</button>
+
+  <p id="error" class="error"></p>
+  <p>Already have an account? <a href="login.html" style="color:#fff;">Login here</a></p>
+
+  <script>
+    function register() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const role = document.getElementById('role').value;
+      const error = document.getElementById('error');
+
+      if (!username || !password || !confirmPassword || !role) {
+        error.textContent = "Please fill out all fields.";
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        error.textContent = "Passwords do not match.";
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const exists = users.find(user => user.username === username);
+      if (exists) {
+        error.textContent = "Username already taken.";
+        return;
+      }
+
+      users.push({ username, password, role });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("Registered successfully!");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>
